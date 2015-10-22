@@ -46,7 +46,7 @@
             android:authorities="net.floating_systems.tvtest.MyContentProvider"
             android:enabled="true"
             android:exported="true" >
-            <path-permission    android:pathPrefix="/search_suggest_query"
+            <path-permission    android:pathPrefix="/search"
                                 android:readPermission="android.permission.GLOBAL_SEARCH" />
         </provider>
     </application>

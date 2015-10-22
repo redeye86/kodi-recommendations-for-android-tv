@@ -11,19 +11,20 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.net.URI;
 
-public class SearchableActivity extends Activity {
+public class SearchableActivity extends Activity{
 
-    TextView tv;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.result_layout);
-        tv = (TextView) findViewById(R.id.textView);
+
+
 
         handleIntent(getIntent());
     }
@@ -37,28 +38,26 @@ public class SearchableActivity extends Activity {
 
         Log.d(Constants.APP_NAME, "NEW INTENT: " + intent.getAction());
 
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query =
-                    intent.getStringExtra(SearchManager.QUERY);
-            doSearch(query);
-        }else  /*if (Intent.ACTION_VIEW.equals(intent.getAction()))*/ {
+        String movieId = intent.getData().getLastPathSegment();
+        Cursor c = getContentResolver().query(Uri.parse("content://net.floating_systems.tvtest.MyContentProvider/id/" + movieId), null, null, null, null);
 
+        if(c.getCount() > 0) {
+            c.moveToFirst();
+            String moviePath = c.getString(c.getColumnIndex(Constants.COLUMN_PATH));
 
+            try {
+                Intent intent2 = new Intent(Intent.ACTION_VIEW, Uri.parse(moviePath));
+                Uri videoUri = Uri.parse(moviePath);
+                intent2.setDataAndType(videoUri, "video/*");
+                intent2.setPackage("org.xbmc.kodi");
+                startActivity(intent2);
+            } catch (Exception e) {
+                Log.e(Constants.APP_NAME, "ERROR EXECUTING KODI");
+                e.printStackTrace();
+            }
 
-            String songId = intent.getData().getLastPathSegment();
-
-            Log.d(Constants.APP_NAME,"Play Song #"+songId);
-
-            tv.setText("Play Song #"+songId);
+            finishActivity(Activity.RESULT_OK);
         }
-    }
-
-    private void doSearch(String queryStr) {
-        // get a Cursor, prepare the ListAdapter
-        // and set it
-
-        Log.d(Constants.APP_NAME,"Query:" + queryStr);
 
     }
-
 }

@@ -6,4 +6,7 @@ package net.floating_systems.tvtest;
 public class Constants {
 
     public final static String APP_NAME = "SEARCH TEST";
+    public final static String COLUMN_PATH = "COLUMN_PATH";
+
+
 }
