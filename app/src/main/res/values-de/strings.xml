@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Mit Kodi abspielen</string>
+
+    <string name="search_label">Suche</string>
+    <string name="search_hint">Geben Sie ein Suchwort ein</string>
+    <string name="play_in_kodi">Mit Kodi abspielen</string>
+
+
+    <string name="recommendation_new">Neuer Inhalt</string>
+    <string name="recommendation_resume">Fortsetzen</string>
+    <string name="recommendation_actor">Vorschlag</string>
+    <string name="recommendation_director">Vorschlag</string>
+    <string name="recommendation_next_episode">Nächste Folge</string>
+    <string name="recommendation_rating">Beliebt</string>
+</resources>

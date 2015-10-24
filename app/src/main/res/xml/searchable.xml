@@ -2,12 +2,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:label="@string/search_label"
     android:hint="@string/search_hint"
-    android:searchSuggestAuthority="net.floating_systems.tvtest.MyContentProvider"
+    android:searchSuggestAuthority="net.floating_systems.tvtest.VideoContentProvider"
     android:searchSuggestIntentAction="android.Intent.action.VIEW"
     android:searchSuggestIntentData="content://net.floating_systems.tvtest/search"
     android:includeInGlobalSearch="true"
     android:searchSettingsDescription="SEARCHME"
     android:searchSuggestSelection=" ?"
-    android:searchSuggestThreshold="1"
+    android:searchSuggestThreshold="3"
     >
 </searchable>

@@ -39,16 +39,24 @@ public class SearchableActivity extends Activity{
         Log.d(Constants.APP_NAME, "NEW INTENT: " + intent.getAction());
 
         String movieId = intent.getData().getLastPathSegment();
-        Cursor c = getContentResolver().query(Uri.parse("content://net.floating_systems.tvtest.MyContentProvider/id/" + movieId), null, null, null, null);
+        Cursor c = getContentResolver().query(Uri.parse("content://net.floating_systems.tvtest.VideoContentProvider/id/" + movieId), null, null, null, null);
 
         if(c.getCount() > 0) {
             c.moveToFirst();
             String moviePath = c.getString(c.getColumnIndex(Constants.COLUMN_PATH));
 
+
+
+            c.close();
+
             try {
                 Intent intent2 = new Intent(Intent.ACTION_VIEW, Uri.parse(moviePath));
                 Uri videoUri = Uri.parse(moviePath);
+
+
                 intent2.setDataAndType(videoUri, "video/*");
+                intent2.putExtra("playoffset",600.0f);
+
                 intent2.setPackage("org.xbmc.kodi");
                 startActivity(intent2);
             } catch (Exception e) {
@@ -56,7 +64,7 @@ public class SearchableActivity extends Activity{
                 e.printStackTrace();
             }
 
-            finishActivity(Activity.RESULT_OK);
+            finish();
         }
 
     }

@@ -1,8 +1,15 @@
 <resources>
-    <string name="app_name">Kodi</string>
-    <string name="browse_title"><![CDATA[Videos by Your Company]]></string>
+<string name="app_name">Play using Kodi</string>
 
-    <string name="search_label">Search</string>
-    <string name="search_hint">Enter a search keyword</string>
-    <string name="title_activity_sample_search">SampleSearchActivity</string>
+<string name="search_label">Search</string>
+<string name="search_hint">Enter a search keyword</string>
+<string name="play_in_kodi">Play in Kodi</string>
+
+
+<string name="recommendation_new">New Content</string>
+<string name="recommendation_resume">Resume</string>
+<string name="recommendation_actor">Recommendation</string>
+<string name="recommendation_director">Recommendation</string>
+<string name="recommendation_next_episode">Next episode</string>
+<string name="recommendation_rating">High Rating</string>
 </resources>
