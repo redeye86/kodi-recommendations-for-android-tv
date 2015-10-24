@@ -43,7 +43,7 @@ public class SearchableActivity extends Activity{
 
         if(c.getCount() > 0) {
             c.moveToFirst();
-            String moviePath = c.getString(c.getColumnIndex(Constants.COLUMN_PATH));
+            String moviePath = c.getString(c.getColumnIndex(Constants.COLUMN_FULL_PATH));
 
 
 
@@ -55,7 +55,7 @@ public class SearchableActivity extends Activity{
 
 
                 intent2.setDataAndType(videoUri, "video/*");
-                intent2.putExtra("playoffset",600.0f);
+                //intent2.putExtra("playoffset",600.0f); //DOESNTWORK
 
                 intent2.setPackage("org.xbmc.kodi");
                 startActivity(intent2);

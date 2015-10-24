@@ -6,7 +6,9 @@ package net.floating_systems.tvtest;
 public class Constants {
 
     public final static String APP_NAME = "Kodi Search";
-    public final static String COLUMN_PATH = "COLUMN_PATH";
+    public final static String COLUMN_FULL_PATH = "COLUMN_FULL_PATH";
+    public final static String COLUMN_BASE_PATH = "COLUMN_BASE_PATH";
+    public final static String COLUMN_FILENAME = "COLUMN_FILENAME";
     public final static String COLUMN_TITLE = "COLUMN_TITLE";
     public final static String COLUMN_IMAGE = "COLUMN_IMAGE";
     public final static String COLUMN_ID = "COLUMN_ID";

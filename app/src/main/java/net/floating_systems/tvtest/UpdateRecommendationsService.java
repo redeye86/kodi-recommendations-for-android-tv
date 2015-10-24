@@ -53,7 +53,9 @@ public class UpdateRecommendationsService extends IntentService {
             i++;
             String movieTitle = recommendationsCursor.getString(recommendationsCursor.getColumnIndex(Constants.COLUMN_TITLE));
             String movieImage = recommendationsCursor.getString(recommendationsCursor.getColumnIndex(Constants.COLUMN_IMAGE));
-            String moviePath = recommendationsCursor.getString(recommendationsCursor.getColumnIndex(Constants.COLUMN_PATH));
+            String moviePath = recommendationsCursor.getString(recommendationsCursor.getColumnIndex(Constants.COLUMN_FULL_PATH));
+
+
 
             int movieReason = recommendationsCursor.getInt(recommendationsCursor.getColumnIndex(Constants.COLUMN_RECOMMENDATION_REASON));
 
@@ -63,7 +65,8 @@ public class UpdateRecommendationsService extends IntentService {
             //Log.d(Constants.APP_NAME,"isnull: " + (viewProgress == null));
 
 
-            Notification notification = builder.setBackground(movieImage)
+            Notification notification =
+                    builder.setBackground(movieImage)
                     .setId(count + 1)
                     .setPriority(MAX_RECOMMENDATIONS - count)
                     .setTitle(movieTitle)

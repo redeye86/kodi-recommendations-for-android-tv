@@ -89,7 +89,8 @@ public class VideoContentProvider extends ContentProvider {
                     + ", c05*10 AS " + SearchManager.SUGGEST_COLUMN_RATING_SCORE
                     + ", " + Constants.KODI_COLUMN_IMDB_ID
                     + ", '" + Rating.RATING_PERCENTAGE + "' AS " + SearchManager.SUGGEST_COLUMN_RATING_STYLE
-                    + ", (strPath || strFilename) AS " + Constants.COLUMN_PATH
+                    + ", strPath AS " + Constants.COLUMN_BASE_PATH
+                    + ", strFilename AS " + Constants.COLUMN_FILENAME
                     + " FROM movie "
                     + "JOIN files ON movie.idFile = files.idFile "
                     + "JOIN path ON files.idPath = path.idPath "
@@ -107,7 +108,7 @@ public class VideoContentProvider extends ContentProvider {
                     SearchManager.SUGGEST_COLUMN_RATING_SCORE,
                     SearchManager.SUGGEST_COLUMN_RATING_STYLE,
                     //SearchManager.SUGGEST_COLUMN_CONTENT_TYPE,
-                    Constants.COLUMN_PATH,
+                    Constants.COLUMN_FULL_PATH
             };
 
             menuCols = new String[] {
@@ -115,7 +116,7 @@ public class VideoContentProvider extends ContentProvider {
                     SearchManager.SUGGEST_COLUMN_INTENT_DATA_ID,
                     SearchManager.SUGGEST_COLUMN_TEXT_1,
                     SearchManager.SUGGEST_COLUMN_ICON_1,
-                    Constants.COLUMN_PATH
+                    Constants.COLUMN_FULL_PATH
             };
 
 
@@ -125,9 +126,14 @@ public class VideoContentProvider extends ContentProvider {
                 String movieId = cursor.getString(cursor.getColumnIndex(BaseColumns._ID));
                 String movieText = cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
                 String moviePoster = cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_ICON_1));
-                String moviePath = cursor.getString(cursor.getColumnIndex(Constants.COLUMN_PATH));
+//                String moviePath = cursor.getString(cursor.getColumnIndex(Constants.COLUMN_PATH));
                 String movieIMDB = cursor.getString(cursor.getColumnIndex(Constants.KODI_COLUMN_IMDB_ID));
 
+
+                String movieBasePath = cursor.getString(cursor.getColumnIndex(Constants.COLUMN_BASE_PATH));
+                String movieFileName = cursor.getString(cursor.getColumnIndex(Constants.COLUMN_FILENAME));
+
+                String moviePath = getFullPath(movieBasePath, movieFileName);
 
 
                 if(moviePoster.trim().equals("")) {
@@ -148,20 +154,22 @@ public class VideoContentProvider extends ContentProvider {
             String movieId = uri.getLastPathSegment().toString();
 
             cursor = db.rawQuery("SELECT "
-                    + "(strPath || strFilename) AS " + Constants.COLUMN_PATH
+                    + ", strPath AS " + Constants.COLUMN_BASE_PATH
+                    + ", strFilename AS " + Constants.COLUMN_FILENAME
                     + " FROM movie " +
                     "JOIN files ON movie.idFile = files.idFile " +
                     "JOIN path ON files.idPath = path.idPath " +
                     "WHERE idMovie = ?;", new String[]{movieId});
 
+
             String[] menuCols = new String[] {
-                    Constants.COLUMN_PATH
+                    Constants.COLUMN_FULL_PATH
             };
 
             mc = new MatrixCursor(menuCols);
 
             while(cursor.moveToNext()) {
-                mc.addRow(new Object[]{cursor.getString(cursor.getColumnIndex(Constants.COLUMN_PATH))});;
+                mc.addRow(new Object[]{getFullPath(cursor.getString(cursor.getColumnIndex(Constants.COLUMN_BASE_PATH)), cursor.getString(cursor.getColumnIndex(Constants.COLUMN_FILENAME)))});;
             }
 
             cursor.close();
@@ -209,7 +217,8 @@ public class VideoContentProvider extends ContentProvider {
                             + "idMovie AS " + BaseColumns._ID
                             + ", c00 AS " + Constants.COLUMN_TITLE
                             + ", substr(c08, instr(c08, '<thumb>')+7, instr(c08, '</thumb>')-8) as " + Constants.COLUMN_IMAGE
-                            + ", (strPath || strFilename) AS " + Constants.COLUMN_PATH
+                            + ", strPath AS " + Constants.COLUMN_BASE_PATH
+                            + ", strFilename AS " + Constants.COLUMN_FILENAME
                             + ", (timeInSeconds / totalTimeInSeconds) * 100 AS "+ Constants.COLUMN_VIEW_PROGRESS
                             + ", " + Constants.KODI_COLUMN_IMDB_ID
                             + ", "+R.string.recommendation_resume+" AS reason "
@@ -232,7 +241,8 @@ public class VideoContentProvider extends ContentProvider {
                             + "idMovie AS " + BaseColumns._ID
                             + ", c00 AS " + Constants.COLUMN_TITLE
                             + ", substr(c08, instr(c08, '<thumb>')+7, instr(c08, '</thumb>')-8) as " + Constants.COLUMN_IMAGE
-                            + ", (strPath || strFilename) AS " + Constants.COLUMN_PATH
+                            + ", strPath AS " + Constants.COLUMN_BASE_PATH
+                            + ", strFilename AS " + Constants.COLUMN_FILENAME
                             + ", -1 AS "+ Constants.COLUMN_VIEW_PROGRESS
                             + ", " + Constants.KODI_COLUMN_IMDB_ID
                             + ", "+R.string.recommendation_new+" AS reason "
@@ -252,7 +262,8 @@ public class VideoContentProvider extends ContentProvider {
                             + "idMovie AS " + BaseColumns._ID
                             + ", c00 AS " + Constants.COLUMN_TITLE
                             + ", substr(c08, instr(c08, '<thumb>')+7, instr(c08, '</thumb>')-8) as " + Constants.COLUMN_IMAGE
-                            + ", (strPath || strFilename) AS " + Constants.COLUMN_PATH
+                            + ", strPath AS " + Constants.COLUMN_BASE_PATH
+                            + ", strFilename AS " + Constants.COLUMN_FILENAME
                             + ", -1 AS "+ Constants.COLUMN_VIEW_PROGRESS
                             + ", " + Constants.KODI_COLUMN_IMDB_ID
                             + ", "+R.string.recommendation_actor+" AS reason "
@@ -275,7 +286,8 @@ public class VideoContentProvider extends ContentProvider {
                             + "idMovie AS " + BaseColumns._ID
                             + ", c00 AS " + Constants.COLUMN_TITLE
                             + ", substr(c08, instr(c08, '<thumb>')+7, instr(c08, '</thumb>')-8) as " + Constants.COLUMN_IMAGE
-                            + ", (strPath || strFilename) AS " + Constants.COLUMN_PATH
+                            + ", strPath AS " + Constants.COLUMN_BASE_PATH
+                            + ", strFilename AS " + Constants.COLUMN_FILENAME
                             + ", -1 AS "+ Constants.COLUMN_VIEW_PROGRESS
                             + ", " + Constants.KODI_COLUMN_IMDB_ID
                             + ", "+R.string.recommendation_director+" AS reason "
@@ -296,7 +308,8 @@ public class VideoContentProvider extends ContentProvider {
                             + "idMovie AS " + BaseColumns._ID
                             + ", c00 AS " + Constants.COLUMN_TITLE
                             + ", substr(c08, instr(c08, '<thumb>')+7, instr(c08, '</thumb>')-8) as " + Constants.COLUMN_IMAGE
-                            + ", (strPath || strFilename) AS " + Constants.COLUMN_PATH
+                            + ", strPath AS " + Constants.COLUMN_BASE_PATH
+                            + ", strFilename AS " + Constants.COLUMN_FILENAME
                             + ", -1 AS "+ Constants.COLUMN_VIEW_PROGRESS
                             + ", " + Constants.KODI_COLUMN_IMDB_ID
                             + ", "+R.string.recommendation_rating+" AS reason "
@@ -316,7 +329,7 @@ public class VideoContentProvider extends ContentProvider {
                     BaseColumns._ID,
                     Constants.COLUMN_TITLE,
                     Constants.COLUMN_IMAGE,
-                    Constants.COLUMN_PATH,
+                    Constants.COLUMN_FULL_PATH,
                     Constants.COLUMN_VIEW_PROGRESS,
                     Constants.COLUMN_RECOMMENDATION_REASON,
                     "importance"
@@ -332,11 +345,15 @@ public class VideoContentProvider extends ContentProvider {
                 String movieId = cursor.getString(cursor.getColumnIndex(BaseColumns._ID));
                 String movieText = cursor.getString(cursor.getColumnIndex(Constants.COLUMN_TITLE));
                 String moviePoster = cursor.getString(cursor.getColumnIndex(Constants.COLUMN_IMAGE));
-                String moviePath = cursor.getString(cursor.getColumnIndex(Constants.COLUMN_PATH));
+                String movieBasePath = cursor.getString(cursor.getColumnIndex(Constants.COLUMN_BASE_PATH));
+                String movieFileName = cursor.getString(cursor.getColumnIndex(Constants.COLUMN_FILENAME));
+
                 String movieIMDB = cursor.getString(cursor.getColumnIndex(Constants.KODI_COLUMN_IMDB_ID));
                 int movieReason = cursor.getInt(cursor.getColumnIndex("reason"));
                 int movieImportance = cursor.getInt(cursor.getColumnIndex("importance"));
                 int movieProgress = cursor.getInt(cursor.getColumnIndex(Constants.COLUMN_VIEW_PROGRESS));
+
+                String moviePath = getFullPath(movieBasePath,movieFileName);
 
                 if(addedToList.contains(movieId)){
                     continue;
@@ -414,6 +431,15 @@ public class VideoContentProvider extends ContentProvider {
         return moviePoster;
     }
 
+    private String getFullPath(String movieBasePath,String movieFileName){
+        String fullPath = movieFileName;
+
+        if(!movieBasePath.startsWith("plugin://")){
+            fullPath = movieBasePath+fullPath;
+        }
+
+        return fullPath;
+    }
 
     private void insertThumbURLs(final HashMap<String,String> moviePosterMap){
 
