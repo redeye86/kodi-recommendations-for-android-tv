@@ -12,4 +12,7 @@
     <string name="recommendation_director">Vorschlag</string>
     <string name="recommendation_next_episode">Nächste Folge</string>
     <string name="recommendation_rating">Beliebt</string>
+
+    <string name="year">Jahr</string>
+    <string name="rating">Bewertung</string>
 </resources>

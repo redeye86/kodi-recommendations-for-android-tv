@@ -6,7 +6,7 @@ android {
     buildToolsVersion "23.0.0"
 
     defaultConfig {
-        applicationId "net.floating_systems.tvtest"
+        applicationId "net.floating_systems.kodiplay"
         minSdkVersion 21
         targetSdkVersion 23
         versionCode 1

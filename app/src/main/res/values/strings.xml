@@ -10,6 +10,9 @@
 <string name="recommendation_resume">Resume</string>
 <string name="recommendation_actor">Recommendation</string>
 <string name="recommendation_director">Recommendation</string>
-<string name="recommendation_next_episode">Next episode</string>
-<string name="recommendation_rating">High Rating</string>
+    <string name="recommendation_next_episode">Next episode</string>
+    <string name="recommendation_rating">High Rating</string>
+
+    <string name="year">Year</string>
+    <string name="rating">Rating</string>
 </resources>

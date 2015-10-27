@@ -6,25 +6,26 @@ Kodi Search / Recommendations for Android TV
 
 
 
-Recommendations:
-###############
+Ideas for Recommendations:
+##########################
 
 
-Filme:
+Movies:
 
 Ideas:
-Check last 15 movies, get main actors, and directors
+Check last 15 movies, get main actors, directors, roles...
 
+Then find:
 - unwatched movies with high rating
 - newer movies better than older
 - search for same directors
 - search for same actors
 - search for same genre
-- randomnes
+- randomness
 - recently aborted videos
 - brand new movies
 - files from set
-
+- movies with roles that also appear in other movies
 - based on previous searches?
 
 
